@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        div {
+            float: left;
+            background-color: beige;
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: helvetica;
+            font-size: 200%;
+            border: #bbbbaa solid 4px;
+            border-radius: 10px;
+        }
+
+            div.resultBox {
+                width: 344px;
+                text-align: right;
+            }
+
+            div.firstInRow {
+                clear: left;
+            }
+    </style>
+</head>
+<body>
+    <div id="resultBox" class="resultBox"></div>
+
+    <div onclick="addCharacter(7)" class="firstInRow">7</div>
+    <div onclick="addCharacter(8)">8</div>
+    <div onclick="addCharacter(9)">9</div>
+    <div onclick="addCharacter('÷')">÷</div>
+
+    <div onclick="addCharacter(4)" class="firstInRow">4</div>
+    <div onclick="addCharacter(5)">5</div>
+    <div onclick="addCharacter(6)">6</div>
+    <div onclick="addCharacter('×')">×</div>
+
+    <div onclick="addCharacter(1)" class="firstInRow">1</div>
+    <div onclick="addCharacter(2)">2</div>
+    <div onclick="addCharacter(3)">3</div>
+    <div onclick="addCharacter('-')">-</div>
+
+    <div onclick="addCharacter(0)" class="firstInRow">0</div>
+    <div onclick="clearResult()">C</div>
+    <div onclick="calculate('=')">=</div>
+    <div onclick="addCharacter('+')">+</div>
+
+    <script>
+        function addCharacter(x) {
+            var resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML += x;
+        }
+        function calculate() {
+            var resultBox = document.getElementById('resultBox');
+            var calculation = resultBox
+                .innerHTML
+                .replace('×', '*')
+                .replace('÷', '/');
+            resultBox.innerHTML = eval(calculation);
+        }
+        function clearResult() {
+            var resultBox = document.getElementById('resultBox');
+            resultBox.innerHTML = '';
+        }
+
+    </script>
+</body>
+</html>

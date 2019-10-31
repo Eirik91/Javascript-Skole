@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input type="submit" value="submit" />
+    <input id="inputBox" type="text" onchange="addText(this)" />
+    <p id="output"></p>
+
+    <script>
+        //Model
+        let outputVar = document.getElementById('output');
+        let inputVar = document.getElementById('inputBox');
+        let outputItem = ' ';
+        let arrayVar = [""];
+        makeHtml();
+
+        //View
+        function makeHtml() {
+            outputVar.innerHTML = `
+                <p>Output:</p> ${outputItem}
+                <ul>
+
+                ${arrayVar.map((todo, i) => `
+                    <li>${i + 1}: ${todo} </li>
+                    `).join('')}
+            </ul>
+                        `;
+        }
+
+        //Controller
+        function addText(inputBox) {
+            outputItem = inputBox.value;
+            arrayVar.push(inputBox.value);
+            makeHtml();
+        }
+
+    </script>
+</body>
+</html>

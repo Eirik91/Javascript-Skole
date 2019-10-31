@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        div {
+            width: 100px;
+            height: 60px;
+        }
+    </style>
+</head>
+<body>
+    <p>Ferdighet 9c - Valgsetninger - Sammenligne to objekter (f.eks. er det samme div-element i to elementer?)</p>
+    <div id="a" onclick="doClick(this)" style="background-color: pink">A</div>
+    <div id="b" onclick="doClick(this)" style="background-color: lightgreen">B</div>
+    <div id="c" onclick="doClick(this)" style="background-color: lightblue">C</div>
+    <div id="info" onclick="doClick(this)">Tykk på en firkant!</div>
+
+    <script>
+        var infoDiv = document.getElementById('info');
+        var divA = document.getElementById('a');
+        var divB = document.getElementById('b');
+        var divC = document.getElementById('c');
+        var buttonLastClicked;
+        var buttonBeforeLastClicked;
+        var numberOfClicksA = 0;
+        var numberOfClicksB = 0;
+        var numberOfClicksC = 0;
+
+        function doClick(buttonClicked) {
+            infoDiv.innerHTML = 'Du trykket på firkant ';
+
+            if (buttonClicked == divA) {
+                infoDiv.innerHTML += 'A';
+                numberOfClicksA++;
+            }
+            else if (buttonClicked == divB) {
+                infoDiv.innerHTML += 'B';
+                numberOfClicksB++;
+            }
+            else if (buttonClicked == divC) {
+                infoDiv.innerHTML += 'C';
+                numberOfClicksC++;
+            }
+
+        if (buttonLastClicked == buttonClicked && numberOfClicksA == 3 || numberOfClicksB == 3 || numberOfClicksC == 3) {
+                infoDiv.innerHTML += '<br>(Tredje gangen på rad.)'
+                if(numberOfClicksA == 3){numberOfClicksA = 0;}
+                if(numberOfClicksB == 3){numberOfClicksB = 0;}
+                if (numberOfClicksC == 3) { numberOfClicksC = 0; }  
+            }
+              else if (buttonLastClicked == buttonBeforeLastClicked && numberOfClicksA == 2 || numberOfClicksB == 2 || numberOfClicksC == 2) {
+                infoDiv.innerHTML += '<br>(To ganger!)'
+            }
+
+             buttonLastClicked = buttonClicked;
+            buttonBeforeLastClicked = buttonLastClicked;
+
+            console.log(numberOfClicksC);
+            console.log("nå: " + buttonClicked.innerHTML);
+            console.log("lastclicked: " + buttonLastClicked.innerHTML);
+            console.log("beforeLastClicked: " + buttonBeforeLastClicked.innerHTML);
+        }
+    </script>
+</body>
+</html>

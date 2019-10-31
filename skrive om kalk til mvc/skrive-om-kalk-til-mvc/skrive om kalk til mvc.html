@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .buttonDiv {
+            float: left;
+            background-color: beige;
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: helvetica;
+            font-size: 200%;
+            border: #bbbbaa solid 4px;
+            border-radius: 10px;
+        }
+
+        .resultBox {
+            width: 344px;
+            text-align: right;
+            float: left;
+            background-color: beige;
+            height: 50px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: helvetica;
+            font-size: 200%;
+            border: #bbbbaa solid 4px;
+            border-radius: 10px;
+        }
+
+        .firstInRow {
+            clear: left;
+            float: left;
+            background-color: beige;
+            width: 50px;
+            height: 50px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: helvetica;
+            font-size: 200%;
+            border: #bbbbaa solid 4px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="resultBox" class="resultBox"></div>
+
+    <div class="firstInRow" onclick="addCharacter(7)">7</div>
+    <div class="buttonDiv" onclick="addCharacter(8)">8</div>
+    <div class="buttonDiv" onclick="addCharacter(9)">9</div>
+    <div class="buttonDiv" onclick="addCharacter('÷')">÷</div>
+
+    <div class="firstInRow" onclick="addCharacter(4)">4</div>
+    <div class="buttonDiv" onclick="addCharacter(5)">5</div>
+    <div class="buttonDiv" onclick="addCharacter(6)">6</div>
+    <div class="buttonDiv" onclick="addCharacter('×')">×</div>
+
+    <div class="firstInRow" onclick="addCharacter(1)">1</div>
+    <div class="buttonDiv" onclick="addCharacter(2)">2</div>
+    <div class="buttonDiv" onclick="addCharacter(3)">3</div>
+    <div class="buttonDiv" onclick="addCharacter('-')">-</div>
+
+    <div class="firstInRow" onclick="addCharacter(0)">0</div>
+    <div class="buttonDiv" onclick="clearResult()">C</div>
+    <div class="buttonDiv" onclick="calculate('=')">=</div>
+    <div class="buttonDiv" onclick="addCharacter('+')">+</div>
+
+    <div id="outputDiv"></div>
+    <script>
+        // model
+        var resultBox = document.getElementById('resultBox');
+        let output = '';
+
+        //view
+        drawHtml();
+        function drawHtml() {
+            resultBox.innerHTML = output;
+    
+        }
+
+
+        // controller
+        function addCharacter(x) {
+            output += x;
+            drawHtml();
+        }
+
+        function calculate() {
+            var calculation = output
+                .replace('×', '*')
+                .replace('÷', '/');
+            output = eval(calculation);
+            drawHtml();
+        }
+
+        function clearResult() {
+            resultBox.innerHTML = '';
+            drawHtml();
+        }
+
+    </script>
+</body>
+</html>

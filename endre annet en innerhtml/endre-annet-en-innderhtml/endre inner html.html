@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .stilig1 {
+            background-color: blueviolet;
+        }
+        .stilig2 {
+            border: 2px solid;
+        }
+        .stilig3 {
+           color: red; 
+        }
+        .stilig4 {
+            padding: 2px;
+        }
+        .stilig5 {
+           margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <p>
+        Lag fem forskjellige navngitte css-stiler som regulerer ulike ting,
+        for eksempel, border, padding, margin , background-color og color.
+        Lag en div, og gjør det sånn at når du velger en checkbox,
+        så skrus den tilhørenden effekten på på div-en.
+    </p>
+
+    <div id="div1" onclick="chooseDiv(this);">DIV 1</div>
+    <div id="div2" onclick="chooseDiv(this);">DIV 2</div>
+    <div id="div3" onclick="chooseDiv(this);">DIV 3</div>
+    <div id="div4" onclick="chooseDiv(this);">DIV 4</div>
+    <div id="div5" onclick="chooseDiv(this);">DIV 5 </div>
+    <br>
+    <input id="chk1" type="checkbox" onchange="toggleStyle1();">test<br />
+    <input id="chk2" type="checkbox" onchange="toggleStyle2()" /><br />
+    <input id="chk3" type="checkbox" onchange="toggleStyle3()" /><br />
+    <input id="chk4" type="checkbox" onchange="toggleStyle4()" /><br />
+    <input id="chk5" type="checkbox" onchange="toggleStyle5()" />
+
+    <script>
+        var stilig1 = document.getElementById('stilig1');
+        var stilig2 = document.getElementById('stilig2');
+        var stilig3 = document.getElementById('stilig3');
+        var stilig4 = document.getElementById('stilig4');
+        var stilig5 = document.getElementById('stilig5');
+        function toggleStyle1() {
+            var isChecked = document.getElementById('chk1').checked;
+            document.getElementById('div1').classList.toggle('stilig1', isChecked);
+        }
+        function toggleStyle2() {
+            var isChecked = document.getElementById('chk2').checked;
+            document.getElementById('div2').classList.toggle('stilig2', isChecked);
+        }
+        function toggleStyle3() {
+            var isChecked = document.getElementById('chk3').checked;
+            document.getElementById('div3').classList.toggle('stilig3', isChecked);
+        }
+        function toggleStyle4() {
+            var isChecked = document.getElementById('chk4').checked;
+            document.getElementById('div4').classList.toggle('stilig4', isChecked);
+        }
+        function toggleStyle5() {
+            var isChecked = document.getElementById('chk5').checked;
+            document.getElementById('div5').classList.toggle('stilig5', isChecked);
+        }
+    </script>
+
+</body>
+</html>

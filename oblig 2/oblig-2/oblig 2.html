@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <svg id="chart" width="500" viewBox="0 0 80 60"></svg>
+    </div>
+    Valgt stolpe: <i id="chosenBar">ingen stolpe valgt</i>
+    <br />
+    Verdi: <input id="value" type="number" min="1" max="10" />
+    <button id="addBar" onclick="add(chosenBarNumber)">Legg til stolpe</button>
+    <button id="changeBar" onclick="change(chosenBarNumber)" disabled>Endre valgt stolpe</button>
+    <br />
+    <button id="removeBar" onclick="remove(chosenBarNumber)" disabled>Fjerne valgt stolpe</button>
+
+    <script>
+        // hjelpevariable for både view og controller
+        var svgTag = document.getElementById('chart');
+        var svgTag = document.getElementById('chart');
+        let chosenBar = document.getElementById("chosenBar");
+        let addBar = document.getElementById("addBar");
+        let changeBar = document.getElementById("changeBar");
+        let removeBar = document.getElementById("removeBar");
+        let value = document.getElementById('value');
+
+        // model
+        let numbers = [7, 3, 1, 5, 8];
+        let chosenBarNumber = "ingen stolpe valgt";
+        let square = 0;
+        showChart();
+
+        // view
+        function barClicked() {
+            removeBar.disabled = square == 0;
+            changeBar.disabled = square == 0;
+        }
+
+        function showChart() {
+            let svgInnerHtml = '';
+            for (let i = 0; i < numbers.length; i++) {
+                let barNo = i + 1;
+                let border = 0;
+                border = barNo == chosenBarNumber ? 0 : border = 1;
+                svgInnerHtml += createBar(numbers[i], i + 1, border);
+            }
+            svgTag.innerHTML = svgInnerHtml;
+            changeText();
+        }
+
+        function createBar(number, barNo) {
+            const width = 8;
+            const spacing = 2;
+            let x = (barNo - 1) * (width + spacing);
+            let height = number * 10;
+            let y = 60 - height;
+            let color = calcColor(1, 10, barNo);
+            barClicked();
+            let printMegUt = square == barNo
+                ?
+                `<rect width="${width}"
+                 height="${height}"
+                 x="${x}"
+                 y="${y}"
+                 fill="${color}"
+                 onclick="assignid(${barNo})"
+                 stroke="black"
+                 stroke-width="0.4">
+                 </rect>`
+
+                : `<rect width="${width}"
+                height="${height}"
+                x="${x}"
+                y="${y}"
+                fill="${color}" 
+                onclick="assignid(${barNo})">
+                </rect>`
+            return printMegUt;
+        }
+
+        function changeText() {
+            if (square == 0) {
+                chosenBar.innerHTML = "ingen stolpe valgt";
+            } else { chosenBar.innerHTML = square; }
+        }
+
+        // controller
+
+        function remove() {
+            numbers.splice(square - 1, 1);
+            showChart();
+        }
+
+        function add() {
+            if (value.value > 10 || value.value < 1) {
+                alert("Mellom 1 og 10 er de eneste gyldige tallene!");
+                return;
+            }
+            numbers.push(parseInt(value.value));
+            showChart();
+        }
+
+        function change() {
+            if (value.value > 10 || value.value < 1) {
+                alert("Mellom 1 og 10 er de eneste gyldige tallene!");
+                return;
+            }
+            numbers[square - 1] = parseInt(value.value);
+            showChart();
+        }
+
+        function calcColor(min, max, val) {
+            var minHue = 240,
+                maxHue = 0;
+            var curPercent = (val - min) / (max - min);
+            var colString = "hsl(" + ((curPercent * (maxHue - minHue)) + minHue) + ",100%,50%)";
+            return colString;
+        }
+
+
+        function assignid(chosensquare) {
+            let assignSquare;
+            square = chosensquare == square ? 0 : chosensquare;
+            showChart();
+            return assignSquare;
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <p>
+        Oppgave: Lag to div-er med teksten “A” og teksten “B”,
+        og to slidere som lar deg bestemme bredde og høyde på valgt
+        div på samme måte som i forrige oppgave.
+        Vis til enhver tid arealet til begge div-ene
+        (arealet er bredden ganger høyden) og en tekst som sier hvilken div
+        som er størst.
+    </p>
+
+    <input id="bredde" type="range" min="1" max="100" step="1" oninput="calculate()" value="2" />
+    <input id="høyde" type="range" min="1" max="100" step="1" oninput="calculate()" value="2" />
+    <div id="resultat"></div>
+
+    <script>
+        var resultatDiv = document.getElementById('resultat');
+        var breddeInput = document.getElementById('bredde');
+        var høydeInput = document.getElementById('høyde');
+
+        calculate();
+
+        function calculate() {
+            var bredde = parseInt(breddeInput.value);
+            var høyde = parseInt(høydeInput.value);
+            var areal = bredde * høyde;
+
+            resultatDiv.innerHTML = 'areal ' +
+                bredde + '*' + høyde + '=' + areal +
+                '<br/>' + 'bredde' + '=' + bredde +
+                '<br/>' + 'høyde' + '=' + høyde;
+
+            if (bredde > høyde) {
+                resultatDiv.innerHTML += '<br/> ' + bredde + ' er større enn ' + høyde;
+            } else {
+                resultatDiv.innerHTML += '<br/> <del>' + bredde + ' er større enn ' + høyde + '</del>';
+            }  
+             if (bredde < høyde) {
+                resultatDiv.innerHTML += '<br/> ' + bredde + ' er mindre enn ' + høyde;
+            } else {
+                resultatDiv.innerHTML += '<br/> <del>' + bredde + ' er mindre enn ' + høyde + '</del>';
+            }      
+        }
+    </script>
+</body>
+</html>

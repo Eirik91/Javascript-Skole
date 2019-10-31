@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <p>
+        Start så med en ny kopi av eksemplet og utvid dette til å fungere med
+        fire tekstinputer, og at programmet finner hvilken av tekstene som er først.
+        (Men ikke full sortering som i forrige oppgave.)
+    </p>
+
+    <div id="info"></div>
+    <ul>
+        <li>Endre på tekstene</li>
+    </ul>
+    <input type="text" id="txt1" oninput="findFirst()" value="Per" /><br />
+    <input type="text" id="txt2" oninput="findFirst()" value="Pål" /><br />
+    <input type="text" id="txt3" oninput="findFirst()" value="Espen" /><br />
+    <input type="text" id="txt4" oninput="findFirst()" value="Askeladden" /><br />
+
+    <script>
+        var infoDiv = document.getElementById('info');
+        var textDiv1 = document.getElementById('txt1');
+        var textDiv2 = document.getElementById('txt2');
+        var textDiv3 = document.getElementById('txt3');
+        var textDiv4 = document.getElementById('txt4');
+
+        findFirst();
+
+        function findFirst() {
+            var txt1 = textDiv1.value;
+            var txt2 = textDiv2.value;
+            var txt3 = textDiv3.value;
+            var txt4 = textDiv4.value;
+
+            infoDiv.innerHTML = 'Om vi sorterer de tre tekstene, er denne den første:<br/>';
+            if (txt1 <= txt2 && txt1 <= txt3 && txt1 <= txt4) infoDiv.innerHTML += txt1;
+            else if (txt2 <= txt3 && txt2 <= txt4) infoDiv.innerHTML += txt2;
+            else if (txt3 <= txt4) infoDiv.innerHTML += txt3;
+            else infoDiv.innerHTML += txt4;
+        }
+    </script>
+</body>
+</html>
