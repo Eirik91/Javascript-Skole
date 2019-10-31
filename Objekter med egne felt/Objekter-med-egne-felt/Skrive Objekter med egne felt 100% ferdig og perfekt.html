@@ -131,6 +131,7 @@
         let tasketidsFrist = document.getElementById('addDeadline');
         let taskDone = document.getElementById('taskDone');
         let checkIfDateBlank = "";
+        let editDeadline = document.getElementById('editDeadline');
         function addTask() {
             if (inputDeadline.value) {
                 checkIfDateBlank = new Date(inputDeadline.value).toLocaleDateString();
@@ -140,12 +141,12 @@
                 isDone: false,
                 responsiblePerson: taskresponsiblePerson.value,
                 tidsFrist: checkIfDateBlank,
-                taskDone: '',
+                taskDone: "",
             });
             taskDescriptionInput.value = '';
             taskresponsiblePerson.value = '';
             inputDeadline.value = ''; 
-            taskDone = '';
+            taskDone = ''; 
             show();
         }
 
@@ -188,9 +189,9 @@
             const task = tasks[index];
             const newDeadline = document.getElementById('editDeadline');
             let selectedDate = "";
-
+            console.log(newDeadline.value + 'newDeadline');
             if (newDeadline.value) {
-            selectedDate = new Date(selectedDate).toLocaleDateString();
+                selectedDate = new Date(newDeadline.value).toLocaleDateString();
             }
             task.description = inputTag.value;
             task.responsiblePerson = editPerson.value;
