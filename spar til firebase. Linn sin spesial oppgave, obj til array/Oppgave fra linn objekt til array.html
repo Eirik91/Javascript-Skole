@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        p {
+            padding: 0px;
+            margin: 3px;
+        }
+
+        table, tr, th, td {
+            border: black solid 2px;
+            border-collapse: collapse;
+            padding: 5px;
+            margin: 5px;
+            font-size: 18px;
+        }
+
+        td {
+            height: 20px;
+            width: 5px;
+        }
+    </style>
+</head>
+<body>
+    <ol>
+        <li>noe man kan "registrere seg" i, med navn, dummymail</li>
+        <li>
+            noen felter og pushe de i et array med en knapp
+            (alle feltene samles i et tobject og så pushes i arrayet
+        </li>
+        <li>
+            Man kan kunne skrive inn et navn, og om det allerede er i arrayen,
+            så kommer resten av informasjonen tilhørende dét "Inputtede" navnet opp!
+        </li>
+    </ol>
+
+    <p>Legg til ett navn her: <input id="newPersonName" type="text" /> 
+    <p>Legg til en epost adresse her: <input id="personalMail" type="text" /> 
+    <p>Legg til telefon Nummer her: <input id="phoneNumber" type="number" /><br />
+    <button onclick="addArray()">Legg til</button></p>
+    <table id="tasksTable"></table>
+    <script>
+        //Hjelpevar
+        let output = document.getElementById('tasksTable');
+        let newPersonName = document.getElementById('newPersonName');
+        let personalMail = document.getElementById('personalMail');
+        let phoneNumber = document.getElementById('phoneNumber');
+        //Model
+        var tasks = [
+            {
+                newPersonName: 'hey',
+                personalMail: 'eirik@getacademy.no',
+                phoneNumber: '90960747',
+
+            }, 
+        ];
+
+        show();
+        //View
+        function show() {
+            let html = `
+                                     <tr>
+                                     <th>Navn</th>
+                                     <th>Epost</th>
+                                     <th>Nummer</th>
+                                     </tr>
+
+
+
+                 `;
+            for (let i = 0; i < tasks.length; i++) {
+                html += createHtmlRow(i);
+            }
+            output.innerHTML = html;
+        }
+
+        function createHtmlRow(index) {
+            const task = tasks[index];
+            return ` <tr>
+                                     <td>${task.newPersonName}</td>
+                                     <td>${task.personalMail}</td>
+                                     <td>${task.phoneNumber}</td>
+                                     </tr>
+
+                `;
+        }
+       //Controller
+        function addArray() {
+            for (let i = 0; i < tasks.length; i++) {
+                if (tasks[i].newPersonName == newPersonName.value
+                    || tasks[i].personalMail == personalMail.value
+                    || tasks[i].phoneNumber == phoneNumber.value) {
+                    alert('Dette finnes fra før.');
+                    return;
+                }
+            }
+            tasks.push({
+                newPersonName: newPersonName.value,
+                personalMail: personalMail.value,
+                phoneNumber: phoneNumber.value,
+            });
+            newPersonName.value = '';
+            personalMail.value = '';
+            phoneNumber.value = '';
+            show();
+        }
+
+
+
+
+
+
+    </script>
+</body>
+</html>
