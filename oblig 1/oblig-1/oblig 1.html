@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Oblig 1 av Eirik</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .wrapper {
+            background-image: url("Widescreen-HD-Autumn.jpg");
+            height: 100%;
+            background-position: center;
+            background-repeat: repeat;
+            background-size: cover;
+            background-attachment: scroll;
+        }
+
+        .footer {
+            position: relative;
+            bottom: -97%;
+            width: 100%;
+            background-color: darkorange;
+            color: black;
+            text-align: center;
+        }
+
+        .mainContent {
+            position: fixed;
+            margin-left: 39%;
+            top: 45%;
+        }
+
+        .dropbtn {
+            position: fixed;
+            background-color: darkorange;
+            color: black;
+            padding: 16px;
+            font-size: 18px;
+            border: solid black 1px;
+            cursor: pointer;
+            margin-left: 50%;
+            min-width: 105px;
+        }
+
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: lightgrey;
+            }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: fixed;
+            background-color: darkorange;
+            min-width: 102px;
+            z-index: 1;
+            margin-left: 50%;
+            margin-top: 56px;
+            border: black solid 1px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .dropdown-contet a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: lightgrey
+        }
+
+        .show {
+            display: list-item;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+
+        table, tr, td {
+            font-size: 25px;
+            border: solid black 1px;
+            text-decoration: none;
+            background-color: darkorange;
+            letter-spacing: 2px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+            td:hover {
+                background-color: lightgrey;
+            }
+
+        #thisButton {
+            position: absolute;
+            color: black;
+            margin-left: 35%;
+            bottom: 130%;
+            font-size: 18px;
+            text-decoration: underline;
+            text-decoration-color: black;
+        }
+
+        .button {
+            position: fixed;
+            background-color: darkorange;
+            color: black;
+            border-color: black;
+            border-width: 1px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+            .button:hover {
+                background-color: lightgrey;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Menu</button>
+            <div id="myDropdown" class="dropdown-content">
+                <br /> <a style="color:black" href="https://github.com/Eirik91/oblig-1" target="_blank">Github oblig1</a> <br />
+                <br /><a style="color:black" href="https://github.com/Eirik91" target="_blank">Github profile</a> <br />
+                <p></p>
+
+            </div>
+        </div>
+
+        <div class="mainContent">
+            <img id="mainImage"
+                 style="width:450px;height:250px; border:5px solid darkorange;" />
+
+            <table style="width:50%; margin-left: 25%">
+                <tr>
+                    <td onclick="change_image(-1)" style="width:50%;" align="left">Previous</td>
+                    <td onclick="change_image(1)" style="width:50%;" align="right">Next</td>
+                </tr>
+            </table>
+
+            <div id="thisButton"><button class="button" value="Borgestad er best!" onclick="changeDiv(this)">Trykk her for fakta.</button></div>
+            <div id="blankDiv"></div>
+
+        </div>
+
+        <div class="footer">Obligatorisk oppgave 1<br />Av Eirik Andre Bjørnstad</div>
+    </div>
+
+    <script type="text/javascript">
+        var Images = ["Borgestadalleen.jpg", "kirke.jpg", "gård.jpg"];
+        var mainImage = document.getElementById('mainImage');
+        var Image_Number = 0;
+        var Image_Length = Image_Length - 1;
+        change_image(0);
+        function change_image(num) {
+            Image_Number = (Images.length + Image_Number + num) % Images.length;
+
+            mainImage.src = Images[Image_Number];
+        }
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+        var thisButtonDiv = document.getElementById("thisButton");
+        var blankDiv = document.getElementById("blankDiv");
+        function changeDiv(recivedFromOnclick) {
+            thisButtonDiv.innerHTML = recivedFromOnclick.value;
+        }
+    </script>
+
+</body>
+</html>
