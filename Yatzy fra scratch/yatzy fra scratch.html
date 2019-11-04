@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        p {
+            font-size: 24px;
+        }
+
+        div {
+            font-size: 50px;
+        }
+
+        table {
+            font-size: 24px;
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+
+        tr {
+            border: 2px solid black;
+        }
+
+        td {
+            border: 2px solid black;
+            min-width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="output"></div>
+    <script>
+        //model
+        var dice = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+        var outputDiv = document.getElementById('output');
+        let thrownDice = [];
+        let player1 = "";
+        let player2 = "";
+        let enere =0; 
+
+        showHtml();
+
+        //view
+        function showHtml() {
+            var html = `
+                        <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
+                        <div id="diceOutput">${thrownDice}</div>
+                        <p>Spiller 1:<input id="player1" type="text"/></p>
+                        <p>Spiller 2:<input id="player2" type="text"/></p>
+                        <button onclick=addPlayers()>Trykk for å legge til spiller!</button>
+                        `;
+            outputDiv.innerHTML = html;
+            drawBoard();
+        }
+
+        function drawBoard() {
+            boardHtml = `
+                        <table>
+                                <tr><td>Navn</td><td>${player1}</td><td>${player2}</td></tr>
+
+                                <tr><td>Enere</td><td>${enere}</td><td></td></tr>
+                                <tr><td>Toere</td><td></td><td></td></tr>
+                                <tr><td>Treere</td><td></td><td></td></tr>
+                                <tr><td>Firere</td><td></td><td></td></tr>
+                                <tr><td>Femmere</td><td></td><td></td></tr>
+
+                                <tr><td>Sekserne</td><td></td><td></td></tr>
+                                <tr><td>Ett par</td><td></td><td></td></tr>
+                                <tr><td>To par</td><td></td><td></td></tr>
+                                <tr><td>Tre like</td><td></td><td></td></tr>
+                                <tr><td>Fire like </td><td></td><td></td></tr>
+
+                                <tr><td>Liten straight</td><td></td><td></td></tr>
+                                <tr><td>Stor Straight</td><td></td><td></td></tr>
+                                <tr><td>Hus</td><td></td><td></td></tr>
+                                <tr><td>Sjanse</td><td></td><td></td></tr>
+                                <tr><td>YATZIII</td><td></td><td></td></tr>
+                                <tr><td>Sum</td><td></td><td></td></tr>
+                    `;
+            outputDiv.innerHTML += boardHtml;
+        }
+
+        //controll
+        function throwDice() {
+            let diceOutput = document.getElementById('diceOutput');
+            for (let i = 0; i < 5; i++) {
+                diceOutput.innerHTML = Math.floor((Math.random() * 6) + 1);
+                if (diceOutput.innerHTML == 1) {
+                    console.log(diceOutput.innerHTML +"HEY");
+                    thrownDice.push(dice[0]);
+                    enere++;
+                } if (diceOutput.innerHTML == 2) {
+                    thrownDice.push(dice[1]);
+                } if (diceOutput.innerHTML == 3) {
+                    thrownDice.push(dice[2]);
+                } if (diceOutput.innerHTML == 4) {
+                    thrownDice.push(dice[3]);
+                } if (diceOutput.innerHTML == 5) {
+                    thrownDice.push(dice[4]);
+                } if (diceOutput.innerHTML == 6) {
+                    thrownDice.push(dice[5]);
+                }
+            }
+            if (thrownDice.length > 5) {
+                thrownDice.length = 0;           
+            }   
+            showHtml();
+        }
+
+        function addPlayers() {
+            let player1input = document.getElementById('player1');
+            let player2input = document.getElementById('player2');
+            player1 = player1input.value;
+            player2 = player2input.value;
+            showHtml();
+        }
+
+
+    </script>
+</body>
+</html>
