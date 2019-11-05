@@ -34,81 +34,124 @@
     <div id="output"></div>
     <script>
         //model
-        var dice = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+        var dice = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
         var outputDiv = document.getElementById('output');
         let thrownDice = [];
         let player1 = "";
         let player2 = "";
-        let enere =0; 
+        let enere = 0;
+        let toere = 0;
+        let treere = 0;
+        let firere = 0;
+        let femmere = 0;
+        let seksere = 0;
+        let sum = "";
+        let bonus = 50;
+        let sumOfSingles; 
 
         showHtml();
 
         //view
         function showHtml() {
             var html = `
-                        <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
-                        <div id="diceOutput">${thrownDice}</div>
-                        <p>Spiller 1:<input id="player1" type="text"/></p>
-                        <p>Spiller 2:<input id="player2" type="text"/></p>
-                        <button onclick=addPlayers()>Trykk for å legge til spiller!</button>
-                        `;
+                                <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
+                                <div id="diceOutput">${thrownDice.map(n=>dice[n])}</div>
+                                <p>Spiller 1:<input id="player1" type="text"/></p>
+                                <p>Spiller 2:<input id="player2" type="text"/></p>
+                                <button onclick=addPlayers()>Trykk for å legge til spiller!</button>
+                                `;
             outputDiv.innerHTML = html;
             drawBoard();
         }
 
         function drawBoard() {
             boardHtml = `
-                        <table>
-                                <tr><td>Navn</td><td>${player1}</td><td>${player2}</td></tr>
+                                <table>
+                                        <tr><td>Navn</td><td>${player1}</td><td>${player2}</td></tr>
 
-                                <tr><td>Enere</td><td>${enere}</td><td></td></tr>
-                                <tr><td>Toere</td><td></td><td></td></tr>
-                                <tr><td>Treere</td><td></td><td></td></tr>
-                                <tr><td>Firere</td><td></td><td></td></tr>
-                                <tr><td>Femmere</td><td></td><td></td></tr>
+                                        <tr><td>Enere</td><td>${enere}</td><td></td></tr>
+                                        <tr><td>Toere</td><td>${toere}</td><td></td></tr>
+                                        <tr><td>Treere</td><td>${treere}</td><td></td></tr>
+                                        <tr><td>Firere</td><td>${firere}</td><td></td></tr>
+                                        <tr><td>Femmere</td><td>${femmere}</td><td></td></tr>
 
-                                <tr><td>Sekserne</td><td></td><td></td></tr>
-                                <tr><td>Ett par</td><td></td><td></td></tr>
-                                <tr><td>To par</td><td></td><td></td></tr>
-                                <tr><td>Tre like</td><td></td><td></td></tr>
-                                <tr><td>Fire like </td><td></td><td></td></tr>
+                                        <tr><td>Seksere</td><td>${seksere}</td><td></td></tr>
+                                        <tr><td>Sum</td><td>${sumOfSingles}</td><td></td></tr>
+                                        <tr><td>Bonus</td><td>${bonus}</td><td></td></tr>
+                                        <tr><td>Ett par</td><td></td><td></td></tr>
+                                        <tr><td>To par</td><td></td><td></td></tr>
+                                        <tr><td>Tre like</td><td></td><td></td></tr>
+                                        <tr><td>Fire like </td><td></td><td></td></tr>
 
-                                <tr><td>Liten straight</td><td></td><td></td></tr>
-                                <tr><td>Stor Straight</td><td></td><td></td></tr>
-                                <tr><td>Hus</td><td></td><td></td></tr>
-                                <tr><td>Sjanse</td><td></td><td></td></tr>
-                                <tr><td>YATZIII</td><td></td><td></td></tr>
-                                <tr><td>Sum</td><td></td><td></td></tr>
-                    `;
+                                        <tr><td>Liten straight</td><td></td><td></td></tr>
+                                        <tr><td>Stor Straight</td><td></td><td></td></tr>
+                                        <tr><td>Hus</td><td></td><td></td></tr>
+                                        <tr><td>Sjanse</td><td></td><td></td></tr>
+                                        <tr><td>YATZIII</td><td></td><td></td></tr>
+                                        <tr><td>TotalSum</td><td></td><td></td></tr>
+                            `;
             outputDiv.innerHTML += boardHtml;
         }
 
         //controll
         function throwDice() {
-            let diceOutput = document.getElementById('diceOutput');
+            thrownDice = [];
             for (let i = 0; i < 5; i++) {
-                diceOutput.innerHTML = Math.floor((Math.random() * 6) + 1);
-                if (diceOutput.innerHTML == 1) {
-                    console.log(diceOutput.innerHTML +"HEY");
-                    thrownDice.push(dice[0]);
-                    enere++;
-                } if (diceOutput.innerHTML == 2) {
-                    thrownDice.push(dice[1]);
-                } if (diceOutput.innerHTML == 3) {
-                    thrownDice.push(dice[2]);
-                } if (diceOutput.innerHTML == 4) {
-                    thrownDice.push(dice[3]);
-                } if (diceOutput.innerHTML == 5) {
-                    thrownDice.push(dice[4]);
-                } if (diceOutput.innerHTML == 6) {
-                    thrownDice.push(dice[5]);
-                }
+                thrownDice.push(Math.floor((Math.random() * 6) + 1));
             }
-            if (thrownDice.length > 5) {
-                thrownDice.length = 0;           
-            }   
+
+            let sumEnere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 1) sumEnere += thrownDice[i];
+                //console.log(sumEnere + "enere")
+            }
+
+            let sumToere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 2) sumToere += thrownDice[i];
+            }
+            let sumTreere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 3) sumTreere += thrownDice[i];
+            }
+            let sumFirere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 4) sumFirere += thrownDice[i];
+            }
+            let sumFemmere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 5) sumFemmere += thrownDice[i];
+            }
+            let sumSeksere = 0;
+            for (let i = 0; i < 5; i++) {
+                if (thrownDice[i] == 6) sumSeksere += thrownDice[i];
+            }
             showHtml();
+            
         }
+                console.log(parseInt(sumSeksere) + "her er ett tall");
+        function sumDice() {
+            var sum = 0;
+            for (let i = 0; 0 < thrownDice.length; i++) {
+                let currentValue = thrownDice[i];
+                sum += currentValue;
+            }
+            return sum;
+        }
+
+            //    addSum(sumEnere, sumToere, sumTreere, sumFirere, sumFemmere, sumSeksere);
+        //}
+        //function addSum(sumEnere, sumToere, sumTreere, sumFirere, sumFemmere, sumSeksere) {
+        //    sumOfSingles = (sumEnere + sumToere + sumTreere + sumFirere + sumFemmere + sumSeksere)+1;
+        //    showHtml();
+        //}
+
+        //function addSumWithBonus() {
+        //    if (sumOfSingles > 63) {
+                
+        //    }
+        //}
+
 
         function addPlayers() {
             let player1input = document.getElementById('player1');
@@ -117,8 +160,6 @@
             player2 = player2input.value;
             showHtml();
         }
-
-
     </script>
 </body>
 </html>
