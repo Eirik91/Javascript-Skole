@@ -5,26 +5,44 @@
     <meta charset="utf-8" />
     <title></title>
     <style>
+        #bold {
+            font-weight:  800;
+        }
+        #semiBold {
+            font-weight: 600;
+        }
+        
+        #underline {
+             border-bottom: 3px solid black;        
+        }
+        
+        #throwDiceButton {
+            font-size: 14px;
+        }
+        #button {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
         p {
-            font-size: 24px;
+            font-size: 18px;
         }
 
-        div {
-            font-size: 50px;
+        #diceOutput {
+        font-size: 45px;
         }
-
         table {
-            font-size: 24px;
-            border: 2px solid black;
+            font-size: 20px;
+            border: 3px solid black;
             border-collapse: collapse;
         }
 
         tr {
-            border: 2px solid black;
+            border: 1px solid black;
         }
 
         td {
-            border: 2px solid black;
+            border: 1px solid black;
             min-width: 100px;
         }
     </style>
@@ -33,6 +51,7 @@
 <body>
     <div id="output"></div>
     <script>
+
         //model
         var dice = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
         var outputDiv = document.getElementById('output');
@@ -47,54 +66,53 @@
         let seksere = 0;
         let bonus = 0;
         let sumOfSingles = 0;
-
         showHtml();
 
         //view
 
-
         function showHtml() {
             var html = `
-                                    <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
-                                    <div id="diceOutput">${thrownDice.map(n => dice[n])}</div>
-                                    <p>Spiller 1:<input id="player1" type="text"/></p>
-                                    <p>Spiller 2:<input id="player2" type="text"/></p>
-                                    <button onclick=addPlayers()>Trykk for å legge til spiller!</button>
-                                    `;
+                        <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
+                        <div id="diceOutput">${thrownDice.map((n) => `<span>${dice[n]}<span/>`).join(' ')}</div>
+                        <p>Spiller 1: <input id="player1" type="text"/></p>
+                        <p>Spiller 2: <input id="player2" type="text"/></p>
+                        <button id="button" onclick=addPlayers()>Trykk for å legge til spiller!</button>
+                      `;
             outputDiv.innerHTML = html;
             drawBoard();
         }
 
         function drawBoard() {
             boardHtml = `
-                                    <table>
-                                            <tr><td>Navn</td><td>${player1}</td><td>${player2}</td></tr>
+                     <table>
+                            <tr id="underline"><td id="bold">Navn</td><td id="bold">${player1}</td><td id="bold">${player2}</td></tr>
 
-                                            <tr><td>Enere</td><td>${enere}</td><td></td></tr>
-                                            <tr><td>Toere</td><td>${toere}</td><td></td></tr>
-                                            <tr><td>Treere</td><td>${treere}</td><td></td></tr>
-                                            <tr><td>Firere</td><td>${firere}</td><td></td></tr>
-                                            <tr><td>Femmere</td><td>${femmere}</td><td></td></tr>
+                            <tr><td>Enere</td><td>${enere}</td><td></td></tr>
+                            <tr><td>Toere</td><td>${toere}</td><td></td></tr>
+                            <tr><td>Treere</td><td>${treere}</td><td></td></tr>
+                            <tr><td>Firere</td><td>${firere}</td><td></td></tr>
+                            <tr><td>Femmere</td><td>${femmere}</td><td></td></tr>
 
-                                            <tr><td>Seksere</td><td>${seksere}</td><td></td></tr>
-                                            <tr><td>Sum</td><td>${sumOfSingles}</td><td></td></tr>
-                                            <tr><td>Bonus</td><td>${bonus}</td><td></td></tr>
-                                            <tr><td>Ett par</td><td></td><td></td></tr>
-                                            <tr><td>To par</td><td></td><td></td></tr>
-                                            <tr><td>Tre like</td><td></td><td></td></tr>
-                                            <tr><td>Fire like </td><td></td><td></td></tr>
+                            <tr id="underline"><td>Seksere</td><td>${seksere}</td><td></td></tr>
+                            <tr><td id="semiBold">Sum</td><td>${sumOfSingles}</td><td></td></tr>
+                            <tr id="underline"><td id="semiBold">Bonus</td><td>${bonus}</td><td></td></tr>
+                            <tr><td>Ett par</td><td></td><td></td></tr>
+                            <tr><td>To par</td><td></td><td></td></tr>
+                            <tr><td>Tre like</td><td></td><td></td></tr>
+                            <tr><td>Fire like </td><td></td><td></td></tr>
 
-                                            <tr><td>Liten straight</td><td></td><td></td></tr>
-                                            <tr><td>Stor Straight</td><td></td><td></td></tr>
-                                            <tr><td>Hus</td><td></td><td></td></tr>
-                                            <tr><td>Sjanse</td><td></td><td></td></tr>
-                                            <tr><td>YATZIII</td><td></td><td></td></tr>
-                                            <tr><td>TotalSum</td><td></td><td></td></tr>
-                                `;
+                            <tr><td>Liten straight</td><td></td><td></td></tr>
+                            <tr><td>Stor Straight</td><td></td><td></td></tr>
+                            <tr><td>Hus</td><td></td><td></td></tr>
+                            <tr><td>Sjanse</td><td></td><td></td></tr>
+                            <tr id="underline"><td id="bold">YATZIII</td><td></td><td></td></tr>
+                            <tr><td>TotalSum</td><td></td><td></td></tr>
+                  `;
             sumAll();
             outputDiv.innerHTML += boardHtml;
         }
         //controll
+
         function throwDice() {
             thrownDice = [];
             let sumEnere = 0;
@@ -124,17 +142,17 @@
             addSumWithBonus();
             showHtml();
         }
+
         function sumAll() {
             sumOfSingles = enere + toere + treere + firere + femmere + seksere;
-            
         }
 
-          function addSumWithBonus() {
+        function addSumWithBonus() {
             if (sumOfSingles > 63) {
                 bonus = 50;
             }
-               showHtml();
-          }
+            showHtml();
+        }
 
         function addPlayers() {
             let player1input = document.getElementById('player1');
@@ -143,6 +161,7 @@
             player2 = player2input.value;
             showHtml();
         }
+
     </script>
 </body>
 </html>
