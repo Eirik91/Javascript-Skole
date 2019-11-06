@@ -105,7 +105,7 @@
                                     <tr><td id="semiBold">Sum</td><td>${sumOfSingles}</td><td></td></tr>
                                     <tr id="underline"><td id="semiBold">Bonus</td><td>${bonus}</td><td></td></tr>
                                     <tr><td>Ett par</td><td>${getScoreOfAKind(2)}</td><td></td></tr>
-                                    <tr><td>To par</td><td>${twoPairs}</td><td></td></tr>
+                                    <tr><td>To par</td><td>${getScoreTwoPairs()}</td><td></td></tr>
                                     <tr><td>Tre like</td><td></td><td></td></tr>
                                     <tr><td>Fire like </td><td></td><td></td></tr>
 
@@ -172,26 +172,6 @@
                 seksere += 6 * sumSeksere;
             }
 
-            //let onePair = 0;
-            //for (let t = 1; t <= 6; t++) {
-            //    if (counts[t] > 1) onePair = t * 2;
-            //}
-
-            let twoPairs = 0;
-            let pairCount = 0;
-            for (let t = 1; t <= 6; t++) {
-                if (counts[t] > 1) {
-                    twoPairs += t * 2;
-                    pairCount++;
-                }
-            }
-
-            if (pairCount < 2) twoPairs = 0;
-            console.log('counts', counts);
-            console.log('sumSingles', sumSingles);
-            console.log('onePair', onePair);
-            console.log('twoPairs', twoPairs);
-
             sumAll();
             addSumWithBonus();
             showHtml();
@@ -205,59 +185,8 @@
                     return diceValue * count;
                 }
             }
+            return 0;
         }
-
-        //function throwDiceGammel() {
-        //    thrownDice = [];
-        //    let sumEnere = 0;
-        //    let sumToere = 0;
-        //    let sumTreere = 0;
-        //    let sumFirere = 0;
-        //    let sumFemmere = 0;
-        //    let sumSeksere = 0;
-        //    for (let i = 0; i < 5; i++) {
-        //        thrownDice.push(Math.floor((Math.random() * 6) + 1));
-        //        if (thrownDice[i] == 1) sumEnere++;
-        //        if (thrownDice[i] == 2) sumToere++;
-        //        if (thrownDice[i] == 3) sumTreere++;
-        //        if (thrownDice[i] == 4) sumFirere++;
-        //        if (thrownDice[i] == 5) sumFemmere++;
-        //        if (thrownDice[i] == 6) sumSeksere++;
-        //    }
-
-        //    enere += 1 * sumEnere;
-        //    toere += 2 * sumToere;
-        //    treere += 3 * sumTreere;
-        //    firere += 4 * sumFirere;
-        //    femmere += 5 * sumFemmere;
-        //    seksere += 6 * sumSeksere;
-
-        //    if (sumEnere == 2) singlePair = sumEnere * 1;
-        //    if (sumToere == 2) singlePair = sumToere * 2;
-        //    if (sumTreere == 2) singlePair = sumTreere * 3;
-        //    if (sumFirere == 2) singlePair = sumFirere * 4;
-        //    if (sumFemmere == 2) singlePair = sumFemmere * 5;
-        //    if (sumSeksere == 2) singlePair = sumSeksere * 6;
-
-        //    if (sumEnere == 2 && singlePair) {
-        //        doubblePair = sumEnere * 2 + singlePair;
-        //    } if (sumToere == 2 && singlePair) {
-        //        doubblePair = sumToere * 2 + singlePair;
-        //    } if (sumTreere == 2 && singlePair) {
-        //        doubblePair = sumTreere * 2 + singlePair;
-        //    } if (sumFirere == 2 && singlePair) {
-        //        doubblePair = sumFirere * 2 + singlePair;
-        //    } if (sumFemmere == 2 && singlePair) {
-        //        doubblePair = sumFemmere * 2 + singlePair;
-        //    } if (sumSeksere == 2 && singlePair) {
-        //        doubblePair = sumSeksere * 2 + singlePair;
-        //    }
-
-        //    sumAll();
-        //    addSumWithBonus();
-        //    showHtml();
-        //}
-
 
         function sumAll() {
             sumOfSingles = enere + toere + treere + firere + femmere + seksere;
@@ -277,6 +206,24 @@
             player2 = player2input.value;
             showHtml();
         }
+
+          function getScoreTwoPairs() {
+            let counts = getCounts();
+            var score = 0;
+            for (let index = counts.length - 1; index >= 0; index--) {
+                let currentCount = counts[index];
+                if (currentCount >= 2) {
+                    let isSecondPair = score > 0;
+                    let diceValue = index + 1;
+                    score += diceValue * 2;
+                    if (isSecondPair) {
+                        return score;
+                    }
+                }
+            }
+            return 0;
+        }
+
         function getCounts() {
             // Her teller vi opp antall av hver terning-verdi
             //            ⚀ ⚁  ⚂  ⚃ ⚄  ⚅
