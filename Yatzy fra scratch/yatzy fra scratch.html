@@ -5,6 +5,13 @@
     <meta charset="utf-8" />
     <title></title>
     <style>
+        div {
+            font-size:18px;
+        }
+        body {
+            background-color: lightgrey;
+        }
+
         #bold {
             font-weight: 800;
         }
@@ -50,14 +57,15 @@
             border: 1px solid black;
             min-width: 100px;
         }
+
     </style>
 </head>
-
 <body>
     <div id="output"></div>
+    
     <script>
-
         //model
+
         var dice = ['', '⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
         var outputDiv = document.getElementById('output');
         let thrownDice = [];
@@ -70,21 +78,21 @@
         let femmere = 0;
         let seksere = 0;
         let bonus = 0;
-        let onePair = 0;
-        let twoPairs = 0;
         let sumOfSingles = 0;
+        let throwCounter = 0;
         showHtml();
 
         //view
 
         function showHtml() {
             var html = `
-                                <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
-                                <div id="diceOutput">${thrownDice.map((n) => `<span>${dice[n]}<span/>`).join(' ')}</div>
-                                <p>Spiller 1: <input id="player1" type="text"/></p>
-                                <p>Spiller 2: <input id="player2" type="text"/></p>
-                                <button id="button" onclick=addPlayers()>Trykk for å legge til spiller!</button>
-                                `;
+                                    <button id="throwDiceButton" onclick = "throwDice()">Trykk på meg for å kaste terninger!</button>
+                                    <div id="diceOutput">${thrownDice.map((n) => `<span>${dice[n]}<span/>`).join(' ')}</div>
+                                    <div>Du har kastet ${throwCounter} gang(er)</div>
+                                    <p>Spiller 1: <input id="player1" type="text"/></p>
+                                    <p>Spiller 2: <input id="player2" type="text"/></p>
+                                    <button id="button" onclick=addPlayers()>Trykk for å legge til spiller!</button>
+                                    `;
             getScoreOf();
             outputDiv.innerHTML = html;
             drawBoard();
@@ -92,35 +100,54 @@
 
         function drawBoard() {
             boardHtml = `
-                                <table>
-                                    <tr id="underline"><td id="bold">Navn</td><td id="bold">${player1}</td><td id="bold">${player2}</td></tr>
+                                    <table>
+                                        <tr id="underline"><td id="bold">Navn</td><td id="bold">${player1}</td><td id="bold">${player2}</td></tr>
 
-                                    <tr><td>Enere</td><td>${getScoreOf(1)}</td><td></td></tr>
-                                    <tr><td>Toere</td><td>${getScoreOf(2)}</td><td></td></tr>
-                                    <tr><td>Treere</td><td>${getScoreOf(3)}</td><td></td></tr>
-                                    <tr><td>Firere</td><td>${getScoreOf(4)}</td><td></td></tr>
-                                    <tr><td>Femmere</td><td>${getScoreOf(5)}</td><td></td></tr>
+                                        <tr><td>Enere</td><td>${getScoreOf(1)}</td><td></td></tr>
+                                        <tr><td>Toere</td><td>${getScoreOf(2)}</td><td></td></tr>
+                                        <tr><td>Treere</td><td>${getScoreOf(3)}</td><td></td></tr>
+                                        <tr><td>Firere</td><td>${getScoreOf(4)}</td><td></td></tr>
+                                        <tr><td>Femmere</td><td>${getScoreOf(5)}</td><td></td></tr>
 
-                                    <tr id="underline"><td>Seksere</td><td>${getScoreOf(6)}</td><td></td></tr>
-                                    <tr><td id="semiBold">Sum</td><td>${sumOfSingles}</td><td></td></tr>
-                                    <tr id="underline"><td id="semiBold">Bonus</td><td>${bonus}</td><td></td></tr>
-                                    <tr><td>Ett par</td><td>${getScoreOfAKind(2)}</td><td></td></tr>
-                                    <tr><td>To par</td><td>${getScoreTwoPairs()}</td><td></td></tr>
-                                    <tr><td>Tre like</td><td></td><td></td></tr>
-                                    <tr><td>Fire like </td><td></td><td></td></tr>
+                                        <tr id="underline"><td>Seksere</td><td>${getScoreOf(6)}</td><td></td></tr>
+                                        <tr><td id="semiBold">Sum</td><td>${sumOfSingles}</td><td></td></tr>
+                                        <tr id="underline"><td id="semiBold">Bonus</td><td>${bonus}</td><td></td></tr>
+                                        <tr><td>Ett par</td><td>${getScoreOfAKind(2)}</td><td></td></tr>
+                                        <tr><td>To par</td><td>${getScoreTwoPairs()}</td><td></td></tr>
+                                        <tr><td>Tre like</td><td>${getScoreOfAKind(3)}</td><td></td></tr>
+                                        <tr><td>Fire like </td><td>${getScoreOfAKind(4)}</td><td></td></tr>
 
-                                    <tr><td>Liten straight</td><td></td><td></td></tr>
-                                    <tr><td>Stor Straight</td><td></td><td></td></tr>
-                                    <tr><td>Hus</td><td></td><td></td></tr>
-                                    <tr><td>Sjanse</td><td></td><td></td></tr>
-                                    <tr id="underline"><td id="bold">YATZIII</td><td></td><td></td></tr>
-                                    <tr><td>TotalSum</td><td></td><td></td></tr>
-                            `;
+                                        <tr><td>Liten straight</td><td>${smallStraight()}</td><td></td></tr>
+                                        <tr><td>Stor Straight</td><td>${bigStraight()}</td><td></td></tr>
+                                        <tr><td>Hus</td><td>${getHouse()}</td><td></td></tr>
+                                        <tr><td>Sjanse</td><td>${getScoreSum()}</td><td></td></tr>
+                                        <tr id="underline"><td id="bold">YATZIII</td><td>${getScoreYatzy()}</td><td></td></tr>
+                                        <tr><td>TotalSum</td><td>${totalSum()}</td><td></td></tr>
+                                `;
+            smallStraight();
             getScoreOf();
             sumAll();
             outputDiv.innerHTML += boardHtml;
         }
+
         //controll
+
+        function smallStraight() {
+            if (enere == 1 && toere == 1 && treere == 1 && firere == 1 && femmere == 1) {
+                return 15;
+            } else {
+                return 0;
+            }
+        }
+
+        function bigStraight() {
+            if (toere == 1 && treere == 1 && firere == 1 && femmere == 1 && seksere == 1) {
+                return 20;
+            } else {
+                return 0;
+            }
+        }
+
         function getScoreOf(value) {
             var sum = 0;
             for (let index = 0; index < thrownDice.length; index++) {
@@ -131,6 +158,7 @@
             }
             return sum;
         }
+
         function getScoreSum() {
             var sum = 0;
             for (let index = 0; index < thrownDice.length; index++) {
@@ -140,7 +168,13 @@
             return sum;
         }
 
+         function getScoreYatzy() {
+            let tmpScore = getScoreOfAKind(5);
+            return tmpScore > 0 ? 50 : 0;
+        }
+
         function throwDice() {
+            throwCounter++;
             thrownDice = [];
             for (let i = 0; i < 5; i++) {
                 thrownDice.push(Math.floor((Math.random() * 6) + 1));
@@ -148,17 +182,17 @@
 
             let counts = [0, 0, 0, 0, 0, 0, 0];
             let sumSingles = [0, 0, 0, 0, 0, 0, 0];
-            for (let i = 0; i < 5; i++) {
-                let diceValue = thrownDice[i];
-                counts[diceValue]++;
-                sumSingles[diceValue] = diceValue;
                 let sumEnere = 0;
                 let sumToere = 0;
                 let sumTreere = 0;
                 let sumFirere = 0;
                 let sumFemmere = 0;
                 let sumSeksere = 0;
-                if (thrownDice[i] == 1) sumEnere++;
+            for (let i = 0; i < 5; i++) {
+                let diceValue = thrownDice[i];
+                counts[diceValue]++;
+                sumSingles[diceValue] = diceValue;
+                if (thrownDice[i] == 1 && throwCounter >= 0 && throwCounter <= 3) sumEnere++;
                 if (thrownDice[i] == 2) sumToere++;
                 if (thrownDice[i] == 3) sumTreere++;
                 if (thrownDice[i] == 4) sumFirere++;
@@ -176,8 +210,16 @@
             addSumWithBonus();
             showHtml();
         }
+
         function getScoreOfAKind(count) {
             let counts = getCounts();
+            let lastCount = 0;
+            if (count == 3) {
+                lastCount = 2;
+                if (count == 3 && lastCount == 2) {
+                    console.log("nå ser vi etter tre like, forrige gang så vi etter to like");
+                }
+            }
             for (let index = counts.length - 1; index >= 0; index--) {
                 let currentCount = counts[index];
                 if (currentCount >= count) {
@@ -207,7 +249,7 @@
             showHtml();
         }
 
-          function getScoreTwoPairs() {
+        function getScoreTwoPairs() {
             let counts = getCounts();
             var score = 0;
             for (let index = counts.length - 1; index >= 0; index--) {
@@ -224,9 +266,26 @@
             return 0;
         }
 
+        function getHouse() {
+            var counts = getCounts();
+            var houseCount = 0;
+            for (let index = 0; index < counts.length; index++) {
+                let currentcount = counts[index];
+                if (currentcount > 0) {
+                    houseCount++;
+                }
+                if (houseCount > 2 || [1, 4, 5].includes(currentcount)) {
+                    return 0;
+                }
+            }
+                return getScoreSum();
+        }
+
+        function totalSum() {
+
+        }
+
         function getCounts() {
-            // Her teller vi opp antall av hver terning-verdi
-            //            ⚀ ⚁  ⚂  ⚃ ⚄  ⚅
             var counts = [0, 0, 0, 0, 0, 0];
             for (let index = 0; index < thrownDice.length; index++) {
                 let diceValue = thrownDice[index];
@@ -235,6 +294,7 @@
             }
             return counts;
         }
+
 
     </script>
 </body>
