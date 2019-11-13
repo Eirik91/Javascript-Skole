@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+
+        body {
+            background-color: lightgray;
+            padding: 10px;
+            font-size: 300%;
+            text-align:center;
+        }
+
+        #board {
+        display: grid;
+        grid-template-columns: repeat(8, 80px);
+        grid-template-rows: repeat(8, 80px);
+        margin-left: 30%;
+        margin-top: 1%;
+
+        }
+        
+         div.black {
+            background-color: burlywood;
+        }
+
+        div.white {
+            background-color: white;
+        }
+
+        bordeArray.piece {
+        color: red;
+        
+        }
+
+    </style>
+</head>
+<body>
+    <div id="board"></div>
+    <script>
+        let boardDiv = document.getElementById('board');
+        let boardArray = createBoard(8)
+        boardArray[0].piece = "rook";
+        boardArray[7].piece = "rook";
+        boardArray[2].piece = "bishop";
+        boardArray[5].piece = "bishop";
+        boardArray[1].piece = "horse";
+        boardArray[6].piece = "horse";
+        boardArray[3].piece = "queen";
+        boardArray[4].piece = "king";
+        for (n = 8; n <= 15; n++) {
+            boardArray[n].piece = "farmer";
+        }
+        boardArray[63].piece = "wRook";
+        boardArray[56].piece = "wRook";
+        boardArray[62].piece = "wHorse";
+        boardArray[57].piece = "wHorse";
+        boardArray[61].piece = "wBishop";
+        boardArray[58].piece = "wBishop";
+        boardArray[59].piece = "wQueen";
+        boardArray[60].piece = "wKing";
+         for (n = 48; n <= 55; n++) {
+            boardArray[n].piece = "wFarmer";
+        }
+        showBoard();
+        function createBoard() {
+              return createArray(8)
+             .map(drawRow)
+             .reduce((board, row) => board.concat(row), []);
+            return createArray(8);
+        }
+        function drawRow(n) {
+            let isFirstSquareWhite = n % 2 == 0;
+            let x = isFirstSquareWhite ? 1 : 0;
+            return createArray(8)
+                .map(n => ({ isBlack: n % 2 === x }));
+        }
+         function createArray(n) {
+            return Array.from(new Array(n).keys());
+        }
+        function showBoard() {
+            boardDiv.innerHTML = boardArray
+            .map(createSquare)
+            .reduce((allHtml, squareHtml) => allHtml + squareHtml, '');
+              
+        }
+        function createSquare(create) {
+        console.log(create.piece + "hey");
+            var pieceCharacter = makeChessPiece(create.piece);
+            return `<div class="${create.isBlack ? 'black' : 'white'}">${pieceCharacter}</div>`;
+
+        }
+        function makeChessPiece(type) {
+             if (type =="rook" ) return '♜';
+             if (type =="bishop" ) return '♝';
+             if (type =="horse" ) return '♞';
+             if (type =="queen" ) return '♛	';
+             if (type =="king" ) return '♚';
+             if (type =="farmer" ) return '♟';
+             if (type =="wRook" ) return '♖';
+             if (type =="wHorse" ) return '♘';
+             if (type =="wBishop" ) return '♗';
+             if (type =="wQueen" ) return '♕';
+             if (type =="wKing" ) return '♔';
+            if (type == "wFarmer") return '♙';
+            else return "";
+        }
+
+    </script>
+
+</body>
+</html>
