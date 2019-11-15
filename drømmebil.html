@@ -6,71 +6,197 @@
     <title></title>
 
     <style>
-        table, tr, th, td {
-        border: 1px solid lightgrey;
-        border-collapse: collapse;
-        padding: 4px;
-        background-color: blue;
-        color: white;
+        td {
+          border: 1px solid black;
+            border-collapse: collapse;
+            padding: 6px;
+        }
+
+        table, tr {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 4px;
+        }
+
+        th {
+            background-color: WindowFrame;
+            color: black;
+            padding: 6px;
+             border: 1px solid black;
+            border-collapse: collapse;
         }
 
         tr:nth-child(even) {
             background: antiquewhite;
         }
+ 
     </style>
 
 </head>
 <body>
+    Hestekrefter:
+    <select id="chooseMotorPower">
+        <option value="blank">Velg her</option>
+        <option value="1000hk">1000hk</option>
+        <option value="500hk">500hk</option>
+        <option value="250hk">250hk</option>
+        <option value="100hk">100hk</option>
+        <option value="10hk">10hk</option>
+    </select>
+    Karoseri:
+    <select id="chooseBodywork">
+        <option value="blank">Velg her</option>
+        <option value="sedan">Sedan</option>
+        <option value="cabriolet">Cabriolet</option>
+        <option value="stasjonsvogn">Stasjonsvogn</option>
+        <option value="sportySport">SPORTYSPORT</option>
+        <option value="formel1">Formel 1</option>
+    </select>
+    Farge:
+    <select id="chooseColor">
+        <option value="blank">Velg her</option>
+        <option value="rød">Rød</option>
+        <option value="blå">Blå</option>
+        <option value="rosa">Rosa</option>
+        <option value="grønn">Grønn</option>
+        <option value="sort">Sort</option>
+    </select>
+    Felg størrelse:
+    <select id="chooseRims">
+        <option value="blank">Velg her</option>
+        <option value="14">14"</option>
+        <option value="16">16"</option>
+        <option value="18">18"</option>
+        <option value="20">20"</option>
+        <option value="24">24"</option>
+    </select>
+    Velg Spoiler:
+    <select id="chooseSpoiler">
+        <option value="blank">Velg her</option>
+        <option value="svæææææææææær">SVÆÆÆÆÆÆÆÆÆÆÆR</option>
+        <option value="ikkeSåStor">meeeeeh, ikke veldig stor</option>
+        <option value="medium">medium</option>
+        <option value="liten">liten</option>
+        <option value="ingen">ingen</option>
+    </select>
+    <p> Bestilling fra:<input id="person" type="text" /></p>
+    <button onclick="addEverything()">Legg til bestilling.</button>
 
-    <ol>
-        <li>Lage input felt</li>
-        <li>Lage selecet felt</li>
-        <li>Lage ett table</li>
-    </ol>
+    <p></p>
     <table id="showTableField"></table>
+   
+    
     <script>
         var taskTable = document.getElementById('showTableField');
         //Model
         var tasks = [
-
-
+            {
+                motor: 'test',
+                bodywork: '',
+                color: '',
+                spoiler: '',
+                rims: '',
+                person: '',
+            },{
+                motor: '',
+                bodywork: '',
+                color: '',
+                spoiler: '',
+                rims: '',
+                person: '',
+            }
 
         ]
         show();
         //view
         function show() {
             let html = `
-                        <tr>
-                            <th>Motor</th>
-                            <th>Karosseri</th>
-                            <th>Farge</th>
-                            <th>Spoiler</th>
-                            <th>Felg størrelse</th>
-                            <th>Hvem som ønsker bilen</th>
-        `;
+                                    <tr>
+                                        <th>Motor</th>
+                                        <th>Karosseri</th>
+                                        <th>Farge</th>
+                                        <th>Spoiler</th>
+                                        <th>Felg størrelse</th>
+                                        <th>Hvem som ønsker bilen</th>
+                                        <th>Endre bestilling</th>
+                                    </tr>`;
             for (let i = 0; i < tasks.length; i++) {
                 html += createRow(i);
             }
             taskTable.innerHTML = html;
         }
 
-        function createRow() {
-           return `<tr> 
-                    <td><select> id="selectMotor">asd</td>
-                    <td input="selecet" id="selectBodywork"></td>
-                    <td input="selecet" id="selectColor"></td>
-                    <td input="selecet" id="selectSpoiler"></td>
-                    <td input="selecet" id="selectRims"></td>
-                    <td input="selecet" id="selectRims"></td>
+        function createRow(i) {
+            const task = tasks[i];
+            if (!task.editMode)
+            return `<tr>
+                                <td>${task.motor}</td>
+                                <td>${task.bodywork}</td>
+                                <td>${task.color}</td>
+                                <td>${task.spoiler}</td>
+                                <td>${task.rims}</td>
+                                <td>${task.addPerson}</td>
+                                <td><button id="editButton" onclick="${edit(i)}">Endre bestilling</button></td>                   
 
-
-            </tr>`;
+                        </tr>`;
+            return `<tr>
+                          <td><input id="editMotorPower${i}" type="text" value = "${task.motor}"> </td>          
+                          <td><input id="editBodywork${i}" type="text" value = "${task.bodywork}"> </td>          
+                          <td><input id="editColor${i}" type="text" value = "${task.color}"> </td>          
+                          <td><input id="editSpoiler${i}" type="text" value = "${task.spoiler}"> </td>          
+                          <td><input id="editRims${i}" type="text" value = "${task.rims}"> </td>          
+                          <td><input id="editAddPerson${i}" type="text" value = "${task.addPerson}"> </td>
+                          <td><button id="saveEditButton" onclick="edit(${i}")>Lagre</button></td>
+          
+                  </tr>`;
 
         }
 
-            //controller
+        //controller
+        let chooseMotorPower = document.getElementById('chooseMotorPower');
+        let chooseBodywork = document.getElementById('chooseBodywork');
+        let chooseColor = document.getElementById('chooseColor');
+        let chooseRims = document.getElementById('chooseRims');
+        let person = document.getElementById('person');
+        let chooseSpoiler = document.getElementById('chooseSpoiler');
+        function addEverything() {
+            tasks.push({
+                motor: chooseMotorPower.value,
+                bodywork: chooseBodywork.value,
+                color: chooseColor.value,
+                rims: chooseRims.value,
+                addPerson: person.value,
+                spoiler: chooseSpoiler.value,
+            });
+            chooseMotorPower.value = '';
+            chooseBodywork.value = '';
+            chooseColor.value = '';
+            chooseRims.value = '';
+            person.value = '';
+            chooseSpoiler.value = '';
+            show();
+        }
 
+         function editTask(i) {
+            tasks[i].editMode = true;
+            show();
+        }
 
+        function edit(i) {
+            const eMotor = `editMotorPower${i}`;
+            const eBodywork = `editBodywork${i}`;
+            const eColor = `editColor${i}`;
+            const eSpoiler = `editSpoiler${i}`;
+            const eRims = `editRims${i}`;
+            const task = tasks[i];
+
+            task.motor = eMotor.value;
+            task.bodywork = eBodywork.value;
+            task.color = eColor.value;
+            task.spoiler = eSpoiler.value;
+            task.rims = eRims.value;
+
+        }
     </script>
 
 </body>
