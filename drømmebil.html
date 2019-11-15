@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <style>
+        table, tr, th, td {
+        border: 1px solid lightgrey;
+        border-collapse: collapse;
+        padding: 4px;
+        background-color: blue;
+        color: white;
+        }
+
+        tr:nth-child(even) {
+            background: antiquewhite;
+        }
+    </style>
+
+</head>
+<body>
+
+    <ol>
+        <li>Lage input felt</li>
+        <li>Lage selecet felt</li>
+        <li>Lage ett table</li>
+    </ol>
+    <table id="showTableField"></table>
+    <script>
+        var taskTable = document.getElementById('showTableField');
+        //Model
+        var tasks = [
+
+
+
+        ]
+        show();
+        //view
+        function show() {
+            let html = `
+                        <tr>
+                            <th>Motor</th>
+                            <th>Karosseri</th>
+                            <th>Farge</th>
+                            <th>Spoiler</th>
+                            <th>Felg størrelse</th>
+                            <th>Hvem som ønsker bilen</th>
+        `;
+            for (let i = 0; i < tasks.length; i++) {
+                html += createRow(i);
+            }
+            taskTable.innerHTML = html;
+        }
+
+        function createRow() {
+           return `<tr> 
+                    <td><select> id="selectMotor">asd</td>
+                    <td input="selecet" id="selectBodywork"></td>
+                    <td input="selecet" id="selectColor"></td>
+                    <td input="selecet" id="selectSpoiler"></td>
+                    <td input="selecet" id="selectRims"></td>
+                    <td input="selecet" id="selectRims"></td>
+
+
+            </tr>`;
+
+        }
+
+            //controller
+
+
+    </script>
+
+</body>
+</html>
