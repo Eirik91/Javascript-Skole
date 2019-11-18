@@ -35,8 +35,8 @@
 </head>
 <body>
     Hestekrefter:
-    <select id="chooseMotorPower">
-        <option value="blank">Velg her</option>
+    <select id = "chooseMotorPower">
+        <option value="Ikke valgt">Velg her</option>
         <option value="1000hk">1000hk</option>
         <option value="500hk">500hk</option>
         <option value="250hk">250hk</option>
@@ -44,8 +44,8 @@
         <option value="10hk">10hk</option>
     </select>
     Karoseri:
-    <select id="chooseBodywork">
-        <option value="blank">Velg her</option>
+    <select id = "chooseBodywork">
+        <option value="Ikke valgt">Velg her</option>
         <option value="sedan">Sedan</option>
         <option value="cabriolet">Cabriolet</option>
         <option value="stasjonsvogn">Stasjonsvogn</option>
@@ -53,8 +53,8 @@
         <option value="formel1">Formel 1</option>
     </select>
     Farge:
-    <select id="chooseColor">
-        <option value="blank">Velg her</option>
+    <select id = "chooseColor">
+        <option value="Ikke valgt">Velg her</option>
         <option value="rød">Rød</option>
         <option value="blå">Blå</option>
         <option value="rosa">Rosa</option>
@@ -62,8 +62,8 @@
         <option value="sort">Sort</option>
     </select>
     Felg størrelse:
-    <select id="chooseRims">
-        <option value="blank">Velg her</option>
+    <select id= "chooseRims">
+        <option value="Ikke valgt">Velg her</option>
         <option value="14">14"</option>
         <option value="16">16"</option>
         <option value="18">18"</option>
@@ -71,15 +71,15 @@
         <option value="24">24"</option>
     </select>
     Velg Spoiler:
-    <select id="chooseSpoiler">
-        <option value="blank">Velg her</option>
+    <select id = "chooseSpoiler">
+        <option value="Ikke valgt">Velg her</option>
         <option value="svæææææææææær">SVÆÆÆÆÆÆÆÆÆÆÆR</option>
         <option value="ikkeSåStor">meeeeeh, ikke veldig stor</option>
         <option value="medium">medium</option>
         <option value="liten">liten</option>
         <option value="ingen">ingen</option>
     </select>
-    <p> Bestilling fra:<input id="person" type="text" /></p>
+    <p> Bestilling fra:<input id="addPerson" type="text" /></p>
     <button onclick="addEverything()">Legg til bestilling.</button>
 
     <p></p>
@@ -96,17 +96,21 @@
                 color: '',
                 spoiler: '',
                 rims: '',
-                person: '',
-            },{
+                addPerson: '',
+            }, {
                 motor: '',
                 bodywork: '',
                 color: '',
                 spoiler: '',
                 rims: '',
-                person: '',
+                addPerson: '',
             }
-
-        ]
+        ];
+        let engineOptions = ['1000hk', '500hk', '250hk', '100hk', '10hk'];
+        let bodyworkOptions = ['sedan', 'cabriolet', 'stasjonsvogn', 'sportySport', 'formel1'];
+        let colorOptions = ['Rød', 'Blå', 'Rosa', 'Grønn', 'Sort'];
+        let rimOptions = ['14"', '16"', '18"', '20"', '24"'];
+        let spoilerOptions = ['SVÆÆÆÆÆÆÆÆÆÆÆR', '>meeeeeh, ikke veldig stor', 'medium', 'liten', 'ingen'];
         show();
         //view
         function show() {
@@ -115,10 +119,11 @@
                                         <th>Motor</th>
                                         <th>Karosseri</th>
                                         <th>Farge</th>
-                                        <th>Spoiler</th>
                                         <th>Felg størrelse</th>
+                                        <th>Spoiler</th>
                                         <th>Hvem som ønsker bilen</th>
                                         <th>Endre bestilling</th>
+                                        <th>Slette bestilling</th>
                                     </tr>`;
             for (let i = 0; i < tasks.length; i++) {
                 html += createRow(i);
@@ -136,17 +141,28 @@
                                 <td>${task.spoiler}</td>
                                 <td>${task.rims}</td>
                                 <td>${task.addPerson}</td>
-                                <td><button id="editButton" onclick="${edit(i)}">Endre bestilling</button></td>                   
+                                <td><button id="editButton" onclick="editTask(${i})">Endre bestilling</button></td>                   
+                                <td><button onclick="deleteTask(${i})">Slett</button></td>
 
                         </tr>`;
             return `<tr>
-                          <td><input id="editMotorPower${i}" type="text" value = "${task.motor}"> </td>          
-                          <td><input id="editBodywork${i}" type="text" value = "${task.bodywork}"> </td>          
-                          <td><input id="editColor${i}" type="text" value = "${task.color}"> </td>          
-                          <td><input id="editSpoiler${i}" type="text" value = "${task.spoiler}"> </td>          
-                          <td><input id="editRims${i}" type="text" value = "${task.rims}"> </td>          
-                          <td><input id="editAddPerson${i}" type="text" value = "${task.addPerson}"> </td>
-                          <td><button id="saveEditButton" onclick="edit(${i}")>Lagre</button></td>
+                          <td>
+                          ${createSelectHtml(engineOptions, `editMotorPower${i}`, task.motor)}
+                          </td>          
+                          <td>
+                          ${createSelectHtml(bodyworkOptions, `editBodywork${i}`, task.bodywork)}    
+                          </td>
+                          <td>
+                          ${createSelectHtml(colorOptions, `editColor${i}`, task.color)}
+                          </td>          
+                          <td>
+                          ${createSelectHtml(rimOptions, `editRims${i}`, task.rims)}
+                          </td>          
+                          <td>
+                          ${createSelectHtml(spoilerOptions, `editSpoiler${i}`, task.spoiler)}
+                          </td>          
+                          <td><input id="editaddPerson${i}" type="text" value = "${task.addPerson}"> </td>
+                          <td><button id="saveEditButton" onclick="edit(${i})">Lagre</button></td>
           
                   </tr>`;
 
@@ -157,7 +173,7 @@
         let chooseBodywork = document.getElementById('chooseBodywork');
         let chooseColor = document.getElementById('chooseColor');
         let chooseRims = document.getElementById('chooseRims');
-        let person = document.getElementById('person');
+        let addPerson = document.getElementById('addPerson');
         let chooseSpoiler = document.getElementById('chooseSpoiler');
         function addEverything() {
             tasks.push({
@@ -165,37 +181,74 @@
                 bodywork: chooseBodywork.value,
                 color: chooseColor.value,
                 rims: chooseRims.value,
-                addPerson: person.value,
+                addPerson: addPerson.value,
                 spoiler: chooseSpoiler.value,
             });
             chooseMotorPower.value = '';
             chooseBodywork.value = '';
             chooseColor.value = '';
             chooseRims.value = '';
-            person.value = '';
+            addPerson.value = '';
             chooseSpoiler.value = '';
             show();
         }
+
+        function createSelectHtml(options, id, currentValue) {
+            let optionsHtml = '';
+            for (let option of options) {
+                optionsHtml += `<option value="${option}">${option}</option>`;
+            }
+
+            return `
+                            <select id="${id}" value = "${currentValue}">
+                                <option value="Ikke valgt">Velg her</option>
+                                ${optionsHtml}
+                            </select>
+                `;
+        
+            
+
+        }
+
+        function editPersonWhoOrdered(i) {
+            tasks[i].editMode = true;
+            show();
+        }
+
+        function editChoosen(i) {
+             tasks[i].editMode = true;
+            show();
+        } 
+
 
          function editTask(i) {
             tasks[i].editMode = true;
             show();
         }
 
-        function edit(i) {
-            const eMotor = `editMotorPower${i}`;
-            const eBodywork = `editBodywork${i}`;
-            const eColor = `editColor${i}`;
-            const eSpoiler = `editSpoiler${i}`;
-            const eRims = `editRims${i}`;
-            const task = tasks[i];
+        function deleteTask(i) {
+            tasks.splice(i, 1);
+            show();
+        }
 
+        function edit(i) {
+            const eMotor = document.getElementById(`editMotorPower${i}`);
+            const eBodywork = document.getElementById( `editBodywork${i}`);
+            const eColor = document.getElementById( `editColor${i}`);
+            const eSpoiler =  document.getElementById(`editSpoiler${i}`);
+            const eRims = document.getElementById( `editRims${i}`);
+            const addPerson =  document.getElementById(`editaddPerson${i}`); 
+            const task = tasks[i];
+            
+            task.addPerson = addPerson.value;
             task.motor = eMotor.value;
             task.bodywork = eBodywork.value;
+            console.log(task.bodywork + 'hello');
             task.color = eColor.value;
             task.spoiler = eSpoiler.value;
             task.rims = eRims.value;
-
+            task.editMode = false;
+            show();
         }
     </script>
 
