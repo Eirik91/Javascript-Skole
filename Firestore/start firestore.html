@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div>
+        ny todo:
+        <input type="text" onkeydown="if(event.keyCode === 13) add(this);"/>
+    </div>
+    <div id="todo">Laster data...</div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.4.0/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDNYfBXZK54hmCUejxSnVmv6MFLcQmv4lk",
+            authDomain: "get-it-av-eirik.firebaseapp.com",
+            databaseURL: "https://get-it-av-eirik.firebaseio.com",
+            projectId: "get-it-av-eirik",
+            storageBucket: "get-it-av-eirik.appspot.com",
+            messagingSenderId: "841644030206",
+            appId: "1:841644030206:web:5a3e2a9b734415d1388daf",
+            measurementId: "G-9NQGM3BFWD"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        var todoCollection = db.collection('todoItems');
+            todoCollection.orderBy('todoText').onSnapshot(
+            function (collectionSnapshot) {
+                let html = '<ul>';
+                collectionSnapshot.forEach(
+                    function (todoItemSnapshot) {
+                        let todoItem = todoItemSnapshot.data();
+                        console.log(todoItem.todoDate);
+                        html += '<li>' + todoItem.todoText + ' (' + todoItem.todoDate.toDate() + ' )</li>'; 
+                    });
+                html += '</ul>';
+                document.getElementById('todo').innerHTML = html;
+            });
+
+        function add(inputTag) {
+            let todoItem = {
+                todoText : inputTag.value,
+                todoDate : new Date()
+            };
+            todoCollection.add(todoItem);
+        }
+    </script>
+</body>
+</html>
