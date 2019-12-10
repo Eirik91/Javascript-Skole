@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <button onclick="go(-1)">Back</button>
+    <button onclick="showA()">A</button>
+    <button onclick="showB()">B</button>
+    <button onclick="showC()">C</button>
+    <button onclick="showD()">D</button>
+
+    <div id="content"></div>
+
+    <script>
+        let myDiv = document.getElementById('content');
+        let model = {
+            history: []
+        };
+
+        function showA() {
+            myDiv.innerHTML = 'Side A';
+            addPageToHistory('showA()');
+        }
+
+        function showB() {
+            myDiv.innerHTML = 'Side B';
+            addPageToHistory('showB()');
+        }
+
+        function showC() {
+            myDiv.innerHTML = 'Side C';
+            addPageToHistory('showC()');
+        }
+
+        function showD() {
+            myDiv.innerHTML = 'Side D';
+            addPageToHistory('eventInformation()');
+        }
+
+        function addPageToHistory(pageJS) {
+            model.history.push(pageJS);
+        }
+
+        function go(delta) {
+            if (delta == -1 && model.history.length > 0) {
+                model.history.pop();
+                let destinationPageJs = model.history.pop();
+                eval(destinationPageJs);
+            }
+        }
+
+    </script>
+</body>
+</html>
